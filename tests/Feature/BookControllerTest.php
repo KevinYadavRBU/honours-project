@@ -49,3 +49,53 @@ it('shows validation errors and keeps the typed values', function () {
         ->assertSessionHasErrors(['author', 'status'])
         ->assertSessionHasInput('title', 'Kept Title');
 });
+
+it('shows the current values in the edit form', function () {
+    $book = Book::factory()->create([
+        'title' => 'The Hobbit',
+        'author' => 'J.R.R. Tolkien',
+        'status' => 'reading',
+    ]);
+
+    $this->get(route('books.edit', $book))
+        ->assertOk()
+        ->assertSee('value="The Hobbit"', false)
+        ->assertSee('value="J.R.R. Tolkien"', false)
+        ->assertSee('value="reading"', false);
+});
+
+it('updates a book with valid values', function () {
+    $book = Book::factory()->create([
+        'title' => 'Old title',
+        'author' => 'Old author',
+        'status' => 'to-read',
+    ]);
+
+    $this->put(route('books.update', $book), [
+        'title' => 'New title',
+        'author' => 'New author',
+        'status' => 'finished',
+    ])
+        ->assertRedirect(route('books.index'))
+        ->assertSessionHas('success', 'Book updated successfully.');
+
+    $this->assertDatabaseHas('books', [
+        'id' => $book->id,
+        'title' => 'New title',
+        'author' => 'New author',
+        'status' => 'finished',
+    ]);
+});
+
+it('rejects invalid values when updating a book', function () {
+    $book = Book::factory()->create();
+
+    $this->from(route('books.edit', $book))
+        ->put(route('books.update', $book), [
+            'title' => 'Valid title',
+            'author' => '',
+            'status' => 'to-read',
+        ])
+        ->assertRedirect(route('books.edit', $book))
+        ->assertSessionHasErrors('author');
+});

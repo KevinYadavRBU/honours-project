@@ -6,7 +6,7 @@
     <h1>Add book</h1>
 
     <form method="POST" action="{{ route('books.store') }}" class="book-form">
-        @include('books.form')
+        @include('books._form')
 
         <div class="form-actions">
             <button type="submit" class="button">Save book</button>

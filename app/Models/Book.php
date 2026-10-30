@@ -3,15 +3,18 @@
 namespace App\Models;
 
 use Database\Factories\BookFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['title', 'author', 'status'])]
 class Book extends Model
 {
     /** @use HasFactory<BookFactory> */
     use HasFactory;
+
+    /**
+     * @var list<string>
+     */
+    protected $fillable = ['title', 'author', 'status'];
 
     /**
      * Allowed book statuses and their labels.

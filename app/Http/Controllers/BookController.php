@@ -23,10 +23,24 @@ class BookController extends Controller
         return view('books.create');
     }
 
+    public function edit(Book $book): View
+    {
+        return view('books.edit', [
+            'book' => $book,
+        ]);
+    }
+
     public function store(BookRequest $request): RedirectResponse
     {
         Book::create($request->validated());
 
         return redirect()->route('books.index')->with('success', 'Book added successfully.');
+    }
+
+    public function update(BookRequest $request, Book $book): RedirectResponse
+    {
+        $book->update($request->validated());
+
+        return redirect()->route('books.index')->with('success', 'Book updated successfully.');
     }
 }
