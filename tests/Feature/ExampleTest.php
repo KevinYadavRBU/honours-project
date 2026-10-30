@@ -1,7 +1,6 @@
 <?php
 
-test('the application returns a successful response', function () {
-    $response = $this->get('/');
-
-    $response->assertStatus(200);
+test('the home page redirects to the books list', function () {
+    $this->get('/')
+        ->assertRedirect(route('books.index'));
 });
