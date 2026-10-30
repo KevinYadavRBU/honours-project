@@ -27,7 +27,9 @@ it('creates a book from the form and returns to the list', function () {
         'title' => 'Dune',
         'author' => 'Frank Herbert',
         'status' => 'reading',
-    ])->assertRedirect(route('books.index'));
+    ])
+        ->assertRedirect(route('books.index'))
+        ->assertSessionHas('success', 'Book added successfully.');
 
     $this->assertDatabaseHas('books', [
         'title' => 'Dune',
