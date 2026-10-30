@@ -4,16 +4,142 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>@yield('title', 'Reading List')</title>
-        @fonts
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <style>
+            body {
+                margin: 0;
+                background: #f5f5f4;
+                color: #1c1917;
+                font-family: Arial, sans-serif;
+                line-height: 1.5;
+            }
+
+            .site-header {
+                padding: 1rem;
+                background: #292524;
+            }
+
+            .site-header a {
+                color: #fff;
+                font-size: 1.25rem;
+                font-weight: bold;
+                text-decoration: none;
+            }
+
+            .page-container {
+                width: min(100% - 2rem, 48rem);
+                margin: 2rem auto;
+            }
+
+            .page-heading,
+            .book-item,
+            .form-actions {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 1rem;
+            }
+
+            .book-list {
+                margin: 1.5rem 0 0;
+                padding: 0;
+                list-style: none;
+                background: #fff;
+                border: 1px solid #e7e5e4;
+                border-radius: 0.5rem;
+            }
+
+            .book-item {
+                padding: 1rem;
+                border-bottom: 1px solid #e7e5e4;
+            }
+
+            .book-item:last-child {
+                border-bottom: 0;
+            }
+
+            .book-title,
+            .book-author {
+                margin: 0;
+            }
+
+            .book-title {
+                font-weight: bold;
+            }
+
+            .book-author,
+            .book-status,
+            .cancel-link {
+                color: #57534e;
+            }
+
+            .button {
+                display: inline-block;
+                padding: 0.5rem 1rem;
+                border: 0;
+                border-radius: 0.375rem;
+                background: #292524;
+                color: #fff;
+                font: inherit;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            .book-form {
+                display: grid;
+                gap: 1rem;
+                margin-top: 1.5rem;
+            }
+
+            .form-field label {
+                display: block;
+                margin-bottom: 0.25rem;
+                font-weight: bold;
+            }
+
+            .form-field input,
+            .form-field select {
+                box-sizing: border-box;
+                width: 100%;
+                padding: 0.5rem;
+                border: 1px solid #d6d3d1;
+                border-radius: 0.375rem;
+                font: inherit;
+            }
+
+            .error-message {
+                margin: 0.25rem 0 0;
+                color: #b91c1c;
+            }
+
+            .success-message {
+                margin: 0 0 1.5rem;
+                padding: 0.75rem 1rem;
+                border-radius: 0.375rem;
+                background: #dcfce7;
+                color: #166534;
+            }
+
+            @media (max-width: 36rem) {
+                .page-heading,
+                .book-item,
+                .form-actions {
+                    align-items: flex-start;
+                    flex-direction: column;
+                }
+            }
+        </style>
     </head>
-    <body class="min-h-screen bg-stone-50 text-stone-900 antialiased">
-        <div class="mx-auto max-w-3xl px-4 py-10">
+    <body>
+        <header class="site-header">
+            <a href="{{ route('books.index') }}">Reading List</a>
+        </header>
+
+        <main class="page-container">
             @if (session('success'))
-                <p class="mb-6 rounded-md bg-green-100 px-4 py-3 text-sm text-green-800">{{ session('success') }}</p>
+                <p class="success-message" role="status">{{ session('success') }}</p>
             @endif
 
             @yield('content')
-        </div>
+        </main>
     </body>
 </html>

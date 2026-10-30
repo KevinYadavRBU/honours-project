@@ -3,22 +3,22 @@
 @section('title', 'Books')
 
 @section('content')
-    <div class="flex items-center justify-between gap-4">
-        <h1 class="text-2xl font-semibold">Reading list</h1>
-        <a href="{{ route('books.create') }}" class="rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white">Add book</a>
+    <div class="page-heading">
+        <h1>Reading list</h1>
+        <a href="{{ route('books.create') }}" class="button">Add book</a>
     </div>
 
     @if ($books->isEmpty())
-        <p class="mt-6 text-stone-600">No books yet.</p>
+        <p>No books yet.</p>
     @else
-        <ul class="mt-6 divide-y divide-stone-200 rounded-lg border border-stone-200 bg-white">
+        <ul class="book-list">
             @foreach ($books as $book)
-                <li class="flex flex-col gap-1 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                        <p class="font-medium">{{ $book->title }}</p>
-                        <p class="text-sm text-stone-600">{{ $book->author }}</p>
+                <li class="book-item">
+                    <div class="book-details">
+                        <p class="book-title">{{ $book->title }}</p>
+                        <p class="book-author">{{ $book->author }}</p>
                     </div>
-                    <p class="text-sm text-stone-700">{{ \App\Models\Book::STATUSES[$book->status] ?? $book->status }}</p>
+                    <p class="book-status">{{ \App\Models\Book::STATUSES[$book->status] ?? $book->status }}</p>
                 </li>
             @endforeach
         </ul>

@@ -3,14 +3,14 @@
 @section('title', 'Add book')
 
 @section('content')
-    <h1 class="text-2xl font-semibold">Add book</h1>
+    <h1>Add book</h1>
 
-    <form method="POST" action="{{ route('books.store') }}" class="mt-6 flex flex-col gap-4">
+    <form method="POST" action="{{ route('books.store') }}" class="book-form">
         @include('books.form')
 
-        <div class="flex items-center gap-4">
-            <button type="submit" class="rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white">Save book</button>
-            <a href="{{ route('books.index') }}" class="text-sm text-stone-600 underline">Cancel</a>
+        <div class="form-actions">
+            <button type="submit" class="button">Save book</button>
+            <a href="{{ route('books.index') }}" class="cancel-link">Cancel</a>
         </div>
     </form>
 @endsection
