@@ -23,6 +23,13 @@ class BookController extends Controller
         return view('books.create');
     }
 
+    public function destroy(Book $book): RedirectResponse
+    {
+        $book->delete();
+
+        return redirect()->route('books.index');
+    }
+
     public function edit(Book $book): View
     {
         return view('books.edit', [

@@ -84,6 +84,16 @@
                 cursor: pointer;
             }
 
+            .button-danger {
+                background: #b91c1c;
+            }
+
+            .book-actions {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+            }
+
             .book-form {
                 display: grid;
                 gap: 1rem;

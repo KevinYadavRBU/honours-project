@@ -99,3 +99,24 @@ it('rejects invalid values when updating a book', function () {
         ->assertRedirect(route('books.edit', $book))
         ->assertSessionHasErrors('author');
 });
+
+it('shows edit and confirmed delete actions for each book', function () {
+    $book = Book::factory()->create();
+
+    $this->get(route('books.index'))
+        ->assertOk()
+        ->assertSee(route('books.edit', $book))
+        ->assertSee('onsubmit="return confirm(\'Are you sure?\')"', false)
+        ->assertSee('name="_method" value="DELETE"', false);
+});
+
+it('deletes a book and returns to the list', function () {
+    $book = Book::factory()->create();
+
+    $this->delete(route('books.destroy', $book))
+        ->assertRedirect(route('books.index'));
+
+    $this->assertDatabaseMissing('books', [
+        'id' => $book->id,
+    ]);
+});

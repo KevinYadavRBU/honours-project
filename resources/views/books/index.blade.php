@@ -18,7 +18,15 @@
                         <p class="book-title">{{ $book->title }}</p>
                         <p class="book-author">{{ $book->author }}</p>
                     </div>
-                    <p class="book-status">{{ \App\Models\Book::STATUSES[$book->status] ?? $book->status }}</p>
+                    <div class="book-actions">
+                        <p class="book-status">{{ \App\Models\Book::STATUSES[$book->status] ?? $book->status }}</p>
+                        <a href="{{ route('books.edit', $book) }}">Edit</a>
+                        <form method="POST" action="{{ route('books.destroy', $book) }}" onsubmit="return confirm('Are you sure?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="button button-danger">Delete</button>
+                        </form>
+                    </div>
                 </li>
             @endforeach
         </ul>

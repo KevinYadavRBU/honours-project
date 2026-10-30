@@ -7,4 +7,4 @@ Route::get('/', function () {
     return redirect()->route('books.index');
 });
 
-Route::resource('books', BookController::class)->except(['show', 'destroy']);
+Route::resource('books', BookController::class)->except(['show']);
