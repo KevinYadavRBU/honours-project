@@ -48,6 +48,25 @@
                 border-radius: 0.5rem;
             }
 
+            .status-filters {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.75rem;
+                margin-top: 1.5rem;
+            }
+
+            .status-filters a {
+                padding: 0.25rem 0.5rem;
+                border-radius: 0.375rem;
+                color: #44403c;
+                text-decoration: none;
+            }
+
+            .status-filters a.active {
+                background: #e7e5e4;
+                font-weight: bold;
+            }
+
             .book-item {
                 padding: 1rem;
                 border-bottom: 1px solid #e7e5e4;

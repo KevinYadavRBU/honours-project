@@ -120,3 +120,42 @@ it('deletes a book and returns to the list', function () {
         'id' => $book->id,
     ]);
 });
+
+it('filters the list by a valid status', function (string $status, string $matchingTitle, string $firstExcludedTitle, string $secondExcludedTitle) {
+    Book::factory()->create([
+        'title' => 'Book to read',
+        'status' => 'to-read',
+    ]);
+    Book::factory()->create([
+        'title' => 'Book being read',
+        'status' => 'reading',
+    ]);
+    Book::factory()->create([
+        'title' => 'Book finished',
+        'status' => 'finished',
+    ]);
+
+    $this->get(route('books.index', ['status' => $status]))
+        ->assertOk()
+        ->assertSee($matchingTitle)
+        ->assertSee('href="'.route('books.index', ['status' => $status]).'" class="active"', false)
+        ->assertDontSee($firstExcludedTitle)
+        ->assertDontSee($secondExcludedTitle);
+})->with([
+    'to-read status' => ['to-read', 'Book to read', 'Book being read', 'Book finished'],
+    'reading status' => ['reading', 'Book being read', 'Book to read', 'Book finished'],
+    'finished status' => ['finished', 'Book finished', 'Book to read', 'Book being read'],
+]);
+
+it('shows all books when the status filter is invalid', function () {
+    Book::factory()->create(['title' => 'Book to read', 'status' => 'to-read']);
+    Book::factory()->create(['title' => 'Book being read', 'status' => 'reading']);
+    Book::factory()->create(['title' => 'Book finished', 'status' => 'finished']);
+
+    $this->get(route('books.index', ['status' => 'paused']))
+        ->assertOk()
+        ->assertSee('Book to read')
+        ->assertSee('Book being read')
+        ->assertSee('Book finished')
+        ->assertSee('href="'.route('books.index').'" class="active"', false);
+});

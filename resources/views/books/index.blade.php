@@ -8,6 +8,13 @@
         <a href="{{ route('books.create') }}" class="button">Add book</a>
     </div>
 
+    <nav class="status-filters" aria-label="Filter books by status">
+        <a href="{{ route('books.index') }}" @class(['active' => $activeStatus === null])>All</a>
+        @foreach (\App\Models\Book::STATUSES as $value => $label)
+            <a href="{{ route('books.index', ['status' => $value]) }}" @class(['active' => $activeStatus === $value])>{{ $label }}</a>
+        @endforeach
+    </nav>
+
     @if ($books->isEmpty())
         <p>No books yet.</p>
     @else

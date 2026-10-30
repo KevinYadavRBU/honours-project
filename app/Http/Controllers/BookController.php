@@ -5,16 +5,27 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BookRequest;
 use App\Models\Book;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class BookController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $books = Book::query()->latest('id')->get();
+        $requestedStatus = $request->query('status');
+        $activeStatus = is_string($requestedStatus) && array_key_exists($requestedStatus, Book::STATUSES)
+            ? $requestedStatus
+            : null;
+
+        $booksQuery = Book::query()->latest('id');
+
+        if ($activeStatus !== null) {
+            $booksQuery->where('status', $activeStatus);
+        }
 
         return view('books.index', [
-            'books' => $books,
+            'books' => $booksQuery->get(),
+            'activeStatus' => $activeStatus,
         ]);
     }
 
