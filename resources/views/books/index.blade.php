@@ -3,7 +3,10 @@
 @section('title', 'Books')
 
 @section('content')
-    <h1 class="text-2xl font-semibold">Reading list</h1>
+    <div class="flex items-center justify-between gap-4">
+        <h1 class="text-2xl font-semibold">Reading list</h1>
+        <a href="{{ route('books.create') }}" class="rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white">Add book</a>
+    </div>
 
     @if ($books->isEmpty())
         <p class="mt-6 text-stone-600">No books yet.</p>

@@ -21,3 +21,29 @@ it('shows every book title, author and status', function () {
         ->assertSee('To read')
         ->assertDontSee('No books yet.');
 });
+
+it('creates a book from the form and returns to the list', function () {
+    $this->post(route('books.store'), [
+        'title' => 'Dune',
+        'author' => 'Frank Herbert',
+        'status' => 'reading',
+    ])->assertRedirect(route('books.index'));
+
+    $this->assertDatabaseHas('books', [
+        'title' => 'Dune',
+        'author' => 'Frank Herbert',
+        'status' => 'reading',
+    ]);
+});
+
+it('shows validation errors and keeps the typed values', function () {
+    $this->from(route('books.create'))
+        ->post(route('books.store'), [
+            'title' => 'Kept Title',
+            'author' => '',
+            'status' => 'skipped',
+        ])
+        ->assertRedirect(route('books.create'))
+        ->assertSessionHasErrors(['author', 'status'])
+        ->assertSessionHasInput('title', 'Kept Title');
+});
