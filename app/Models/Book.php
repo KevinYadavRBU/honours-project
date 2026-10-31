@@ -26,11 +26,4 @@ class Book extends Model
         'reading' => 'Reading',
         'finished' => 'Finished',
     ];
-
-    /**
-     * @var array<string, mixed>
-     */
-    protected $attributes = [
-        'status' => 'to-read',
-    ];
 }

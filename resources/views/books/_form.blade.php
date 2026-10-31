@@ -1,3 +1,5 @@
+@use('App\Models\Book')
+
 @csrf
 
 <div class="form-field">
@@ -29,7 +31,7 @@
 <div class="form-field">
     <label for="status">Status</label>
     <select id="status" name="status">
-        @foreach (\App\Models\Book::STATUSES as $value => $label)
+        @foreach (Book::STATUSES as $value => $label)
             <option value="{{ $value }}" @selected(old('status', $book->status ?? 'to-read') === $value)>{{ $label }}</option>
         @endforeach
     </select>

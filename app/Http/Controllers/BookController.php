@@ -12,19 +12,16 @@ class BookController extends Controller
 {
     public function index(Request $request): View
     {
-        $requestedStatus = $request->query('status');
-        $activeStatus = is_string($requestedStatus) && array_key_exists($requestedStatus, Book::STATUSES)
-            ? $requestedStatus
-            : null;
+        $status = $request->query('status');
+        $activeStatus = is_string($status) && isset(Book::STATUSES[$status]) ? $status : null;
 
-        $booksQuery = Book::query()->latest('id');
-
-        if ($activeStatus !== null) {
-            $booksQuery->where('status', $activeStatus);
-        }
+        $books = Book::query()
+            ->when($activeStatus, fn ($query) => $query->where('status', $activeStatus))
+            ->latest('id')
+            ->get();
 
         return view('books.index', [
-            'books' => $booksQuery->get(),
+            'books' => $books,
             'activeStatus' => $activeStatus,
         ]);
     }
